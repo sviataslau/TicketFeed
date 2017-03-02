@@ -5,30 +5,33 @@ using System.Net;
 using System.Xml.Linq;
 using TicketFeed.SDK;
 
-namespace TicketFeed
+namespace TicketFeed.Plugins
 {
-    internal sealed class TicketFeed
+    internal sealed class JiraFeed : Source
     {
         private const int RecordsToPull = 100;
-        private readonly string jiraUrl;
+        private readonly string url;
         private readonly string username;
         private readonly string password;
 
-        public TicketFeed(string jiraUrl, string username, string password)
+        public JiraFeed(string url, string username, string password)
+            : base(url, username, password)
         {
-            this.jiraUrl = jiraUrl;
+            this.url = url;
             this.username = username;
             this.password = password;
         }
 
-        public FeedRecords Records(DateRange dateRange)
+        public override string Name => "Jira";
+
+        public override Tickets Tickets(DateRange dateRange)
         {
-            using (var client = new WebClient { Credentials = new NetworkCredential(this.username, this.password) })
+            using (var client = new WebClient {Credentials = new NetworkCredential(this.username, this.password)})
             {
                 bool oneDayRange = dateRange.Time().Days < 1;
                 int recordsToPull = oneDayRange ? 20 : RecordsToPull;
                 string url =
-                    $"{this.jiraUrl}/activity?maxResults={recordsToPull}&streams=user+IS+{this.username}&os_authType=basic";
+                    $"{this.url}/activity?maxResults={recordsToPull}&streams=user+IS+{this.username}&os_authType=basic";
                 string response = client.DownloadString(url);
                 XElement feed = ClearNamespaces(XDocument.Parse(response).Root);
                 XElement[] entries = feed.Descendants("entry").ToArray();
@@ -44,7 +47,7 @@ namespace TicketFeed
                     .Where(t => dateRange.Contains(t.Key.Date))
                     .OrderByDescending(t => t.Key)
                     .ToDictionary(g => g.Key, g => string.Join(Environment.NewLine, g.Distinct().ToArray()));
-                var fr = new FeedRecords();
+                var fr = new Tickets();
                 foreach (var record in result)
                     fr.Add(record.Key, record.Value);
                 return fr;
@@ -55,7 +58,7 @@ namespace TicketFeed
         {
             if (!xmlDocument.HasElements)
             {
-                XElement element = new XElement(xmlDocument.Name.LocalName) { Value = xmlDocument.Value };
+                var element = new XElement(xmlDocument.Name.LocalName) {Value = xmlDocument.Value};
                 foreach (XAttribute attribute in xmlDocument.Attributes())
                     element.Add(attribute);
                 return element;

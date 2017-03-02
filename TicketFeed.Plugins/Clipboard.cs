@@ -3,11 +3,11 @@ using TicketFeed.SDK;
 
 namespace TicketFeed.Plugins
 {
-    internal class Clipboard : IOutput
+    internal class Clipboard : Output
     {
-        public string Name => "Clipboard";
+        public override string Name => "Clipboard";
 
-        public void Print(FeedRecords records)
+        public override void Print(Tickets records)
         {
             string output = records.ToString();
             Console.Write(output);
