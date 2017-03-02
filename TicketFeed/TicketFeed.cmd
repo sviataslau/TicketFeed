@@ -1,1 +1,1 @@
-TicketFeed.exe --j https://comrex.atlassian.net --u you --p password --range Today --o Clipboard
+TicketFeed.exe --src jira --url https://comrex.atlassian.net --user you --password password --range Today --out Clipboard

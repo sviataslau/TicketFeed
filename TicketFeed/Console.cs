@@ -2,11 +2,11 @@ using TicketFeed.SDK;
 
 namespace TicketFeed
 {
-    internal class Console : IOutput
+    internal class Console : Output
     {
-        public string Name => "Console";
+        public override string Name => "Console";
 
-        public void Print(FeedRecords records)
+        public override void Print(Tickets records)
         {
             System.Console.Write(records.ToString());
         }

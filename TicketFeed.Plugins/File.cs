@@ -4,12 +4,13 @@ using TicketFeed.SDK;
 
 namespace TicketFeed.Plugins
 {
-    internal class File : IOutput
+    internal class File : Output
     {
         private const string Path = "Feed.txt";
-        public string Name => "File";
 
-        public void Print(FeedRecords records)
+        public override string Name => "File";
+
+        public override void Print(Tickets records)
         {
             string output = records.ToString();
             Console.Write(output);

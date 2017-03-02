@@ -46,10 +46,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Console.cs" />
-    <Compile Include="DateRange.cs" />
     <Compile Include="MeasuredPerformance.cs" />
-    <Compile Include="Output.cs" />
-    <Compile Include="TicketFeed.cs" />
+    <Compile Include="Factory.cs" />
     <Compile Include="Options.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

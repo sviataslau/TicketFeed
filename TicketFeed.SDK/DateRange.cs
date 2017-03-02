@@ -1,10 +1,10 @@
 ﻿using System;
 
-namespace TicketFeed
+namespace TicketFeed.SDK
 {
-    internal class DateRange
+    public class DateRange
     {
-        internal enum Type
+        public enum Type
         {
             Today,
             Yesterday,
@@ -15,7 +15,7 @@ namespace TicketFeed
         public readonly DateTime Start;
         public readonly DateTime End;
 
-        internal DateRange(Type type)
+        public DateRange(Type type)
         {
             switch (type)
             {
