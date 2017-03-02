@@ -1,8 +1,7 @@
 ﻿namespace TicketFeed.SDK
 {
-    public interface IOutput
+    public interface ILoadableItem
     {
         string Name { get; }
-        void Print(FeedRecords records);
     }
 }

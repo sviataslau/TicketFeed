@@ -1,0 +1,5 @@
+C:\Users\Admin\RiderProjects\TicketFeed\TicketFeed.SDK\bin\Debug\TicketFeed.SDK.dll
+C:\Users\Admin\RiderProjects\TicketFeed\TicketFeed.SDK\bin\Debug\TicketFeed.SDK.pdb
+C:\Users\Admin\RiderProjects\TicketFeed\TicketFeed.SDK\obj\Debug\TicketFeed.SDK.csprojResolveAssemblyReference.cache
+C:\Users\Admin\RiderProjects\TicketFeed\TicketFeed.SDK\obj\Debug\TicketFeed.SDK.dll
+C:\Users\Admin\RiderProjects\TicketFeed\TicketFeed.SDK\obj\Debug\TicketFeed.SDK.pdb

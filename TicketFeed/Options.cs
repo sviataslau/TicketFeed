@@ -1,17 +1,21 @@
 ﻿using System.Text;
 using CommandLine;
+using TicketFeed.SDK;
 
 namespace TicketFeed
 {
     internal class Options
     {
-        [Option('j', "jira", Required = true, HelpText = "An URL for your Jira")]
+        [Option("src", Required = true, HelpText = "Source Type")]
+        public string Source { get; set; }
+
+        [Option("url", Required = true, HelpText = "An URL for your bug tracking system")]
         public string Url { get; set; }
 
-        [Option('u', "user", Required = true, HelpText = "Jira username")]
+        [Option('u', "user", Required = true, HelpText = "Username")]
         public string User { get; set; }
 
-        [Option('p', "password", Required = true, HelpText = "Jira password")]
+        [Option('p', "password", Required = true, HelpText = "Password")]
         public string Password { get; set; }
 
         [Option("range", Required = true, DefaultValue = DateRange.Type.Today,
@@ -27,9 +31,9 @@ namespace TicketFeed
             var usage = new StringBuilder();
             usage.AppendLine("Ticket Feed 1.0");
             usage.AppendLine(
-                "A simple console application to pull a list of tickets you've been working on from your JIRA and print the list to provided output.");
+                "A simple console application to pull a list of tickets you've been working on from your bug tracking system and print the list to provided output.");
             usage.AppendLine(
-                "TicketFeed.exe --jira https://comrex.atlassian.net --user you --password password --range Today[Yesterday|Week|Month] --out File[Console|Clipboard]");
+                "TicketFeed.exe --src jira --url https://comrex.atlassian.net --user you --password password --range Today[Yesterday|Week|Month] --out File[Console|Clipboard]");
             return usage.ToString();
         }
     }
