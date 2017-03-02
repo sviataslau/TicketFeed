@@ -3,13 +3,6 @@ using CommandLine;
 
 namespace TicketFeed
 {
-    internal enum Output
-    {
-        Console,
-        File,
-        Clipboard
-    }
-
     internal class Options
     {
         [Option('j', "jira", Required = true, HelpText = "An URL for your Jira")]
@@ -25,8 +18,8 @@ namespace TicketFeed
             HelpText = "Date range which you want to pull")]
         public DateRange.Type Range { get; set; }
 
-        [Option('o', "out", Required = true, DefaultValue = Output.File, HelpText = "Output")]
-        public Output Output { get; set; }
+        [Option('o', "out", Required = true, HelpText = "Output")]
+        public string Output { get; set; }
 
         [HelpOption]
         public string Help()
@@ -34,7 +27,7 @@ namespace TicketFeed
             var usage = new StringBuilder();
             usage.AppendLine("Ticket Feed 1.0");
             usage.AppendLine(
-                "A simple console application to pull a list of tickets you've been working on from your JIRA.");
+                "A simple console application to pull a list of tickets you've been working on from your JIRA and print the list to provided output.");
             usage.AppendLine(
                 "TicketFeed.exe --jira https://comrex.atlassian.net --user you --password password --range Today[Yesterday|Week|Month] --out File[Console|Clipboard]");
             return usage.ToString();
