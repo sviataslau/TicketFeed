@@ -43,6 +43,7 @@ namespace TicketFeed
                         System.Console.WriteLine(ex.Message);
                         System.Console.WriteLine(ex.StackTrace);
                     }
+                    System.Console.ReadLine();
                 }
             }
         }

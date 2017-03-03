@@ -43,8 +43,8 @@
   <ItemGroup>
     <Compile Include="Clipboard.cs" />
     <Compile Include="File.cs" />
+    <Compile Include="JiraActivity.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Jira.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\TicketFeed.SDK\TicketFeed.SDK.csproj">

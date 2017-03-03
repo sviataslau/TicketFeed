@@ -11,9 +11,17 @@ namespace TicketFeed.Plugins
         {
             string output = records.ToString();
             Console.Write(output);
-            System.Windows.Forms.Clipboard.SetText(output);
-            Console.ForegroundColor = ConsoleColor.Green;
-            Console.WriteLine("The result has been copied to clipboard");
+            if (!string.IsNullOrEmpty(output))
+            {
+                System.Windows.Forms.Clipboard.SetText(output);
+                Console.ForegroundColor = ConsoleColor.Green;
+                Console.WriteLine("The result has been copied to clipboard");
+            }
+            else
+            {
+                Console.ForegroundColor = ConsoleColor.DarkYellow;
+                Console.WriteLine("The result was empty");
+            }
             Console.ResetColor();
         }
     }

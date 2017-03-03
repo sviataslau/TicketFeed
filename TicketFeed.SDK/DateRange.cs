@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 
 namespace TicketFeed.SDK
 {
@@ -20,45 +21,38 @@ namespace TicketFeed.SDK
             switch (type)
             {
                 case Type.Today:
-                    this.Start = DateTime.Today;
-                    this.End = RoundToEndOfDay(this.Start);
+                    this.Start = DateTime.UtcNow.Date;
+                    this.End = this.Start.EndOfDay();
                     break;
                 case Type.Yesterday:
-                    this.Start = DateTime.Today.AddDays(-1);
-                    this.End = RoundToEndOfDay(this.Start);
+                    this.Start = DateTime.UtcNow.Date.AddDays(-1);
+                    this.End = this.Start.EndOfDay();
                     break;
                 case Type.Week:
-                    this.Start = StartOfWeek(DateTime.Now.Date, DayOfWeek.Monday);
-                    this.End = RoundToEndOfDay(this.Start.AddDays(7));
+                    this.Start = DateTime.UtcNow.Date.StartOfWeek(DayOfWeek.Monday);
+                    this.End = this.Start.AddDays(7).EndOfDay();
                     break;
                 case Type.Month:
-                    this.Start = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1);
+                    this.Start = new DateTime(DateTime.UtcNow.Year, DateTime.UtcNow.Month, 1);
                     this.End = this.Start.AddMonths(1).AddDays(-1);
                     break;
             }
         }
 
-        private static DateTime RoundToEndOfDay(DateTime date)
+        public bool Contains(DateTime dateTime)
         {
-            return date.Date.AddDays(1).AddSeconds(-1);
-        }
-
-        private static DateTime StartOfWeek(DateTime date, DayOfWeek startOfWeek)
-        {
-            int diff = date.DayOfWeek - startOfWeek;
-            if (diff < 0)
-                diff += 7;
-            return date.AddDays(-1 * diff).Date;
-        }
-
-        public bool Contains(DateTime date)
-        {
-            return date >= this.Start && date <= this.End;
+            return dateTime >= this.Start && dateTime < this.End;
         }
 
         public TimeSpan Time()
         {
             return this.End.Subtract(this.Start);
+        }
+
+        public override string ToString()
+        {
+            return $"{this.Start.ToString(CultureInfo.InvariantCulture)} ({this.Start.UnixTime()})" +
+                   $" {this.End.ToString(CultureInfo.InvariantCulture)} ({this.End.UnixTime()})";
         }
     }
 }

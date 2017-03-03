@@ -7,14 +7,15 @@ using TicketFeed.SDK;
 
 namespace TicketFeed.Plugins
 {
-    internal sealed class JiraFeed : Source
+    internal sealed class JiraActivity : Source
     {
-        private const int RecordsToPull = 100;
+        private const int MaxRecordsToPull = 100;
+
         private readonly string url;
         private readonly string username;
         private readonly string password;
 
-        public JiraFeed(string url, string username, string password)
+        public JiraActivity(string url, string username, string password)
             : base(url, username, password)
         {
             this.url = url;
@@ -26,13 +27,18 @@ namespace TicketFeed.Plugins
 
         public override Tickets Tickets(DateRange dateRange)
         {
-            using (var client = new WebClient {Credentials = new NetworkCredential(this.username, this.password)})
+            using (var client = new WebClient { Credentials = new NetworkCredential(this.username, this.password) })
             {
-                bool oneDayRange = dateRange.Time().Days < 1;
-                int recordsToPull = oneDayRange ? 20 : RecordsToPull;
-                string url =
-                    $"{this.url}/activity?maxResults={recordsToPull}&streams=user+IS+{this.username}&os_authType=basic";
-                string response = client.DownloadString(url);
+                string feedUrl =
+                    $"{this.url}/activity?streams=user+IS+{this.username}&" +
+                    $"streams=update-date+BETWEEN+{dateRange.Start.UnixTime()}+{dateRange.End.UnixTime()}&"+
+                    $"maxResults={MaxRecordsToPull}&" +
+                    "os_authType=basic";
+#if DEBUG
+                Console.WriteLine(dateRange.ToString());
+                Console.WriteLine(feedUrl);
+#endif
+                string response = client.DownloadString(feedUrl);
                 XElement feed = ClearNamespaces(XDocument.Parse(response).Root);
                 XElement[] entries = feed.Descendants("entry").ToArray();
                 IEnumerable<Tuple<DateTime, string>> tickets = from entry in entries
@@ -44,7 +50,6 @@ namespace TicketFeed.Plugins
                     where type != null && type.Value.Contains("issue")
                     select new Tuple<DateTime, string>(updated, title?.Value + " " + summary?.Value);
                 IDictionary<DateTime, string> result = tickets.GroupBy(t => t.Item1.Date, t => t.Item2)
-                    .Where(t => dateRange.Contains(t.Key.Date))
                     .OrderByDescending(t => t.Key)
                     .ToDictionary(g => g.Key, g => string.Join(Environment.NewLine, g.Distinct().ToArray()));
                 var fr = new Tickets();
@@ -58,7 +63,7 @@ namespace TicketFeed.Plugins
         {
             if (!xmlDocument.HasElements)
             {
-                var element = new XElement(xmlDocument.Name.LocalName) {Value = xmlDocument.Value};
+                var element = new XElement(xmlDocument.Name.LocalName) { Value = xmlDocument.Value };
                 foreach (XAttribute attribute in xmlDocument.Attributes())
                     element.Add(attribute);
                 return element;

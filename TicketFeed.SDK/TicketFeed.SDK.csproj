@@ -40,6 +40,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DateRange.cs" />
+    <Compile Include="DateUtils.cs" />
     <Compile Include="ILoadableItem.cs" />
     <Compile Include="Tickets.cs" />
     <Compile Include="Output.cs" />
