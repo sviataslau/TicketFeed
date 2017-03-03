@@ -2,7 +2,7 @@ A simple console application to pull a list of tickets you've been working on fr
 
 Usage:
 
-```TicketFeed.exe --src jira --url https://comrex.atlassian.net --user sseviaryn --password flamingmadness1987 --range Today --out Clipboard```
+```TicketFeed.exe --src jira --url https://comrex.atlassian.net --user you --password password --range Today --out Clipboard```
 
 Supported time ranges:
 * Today
