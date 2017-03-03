@@ -1,24 +1,24 @@
-***REMOVED***
+A simple console application to pull a list of tickets you've been working on from your bug tracking system and push them to selected output.
 
-***REMOVED***
+Usage:
 
-***REMOVED***
+```TicketFeed.exe --src jira --url https://comrex.atlassian.net --user sseviaryn --password flamingmadness1987 --range Today --out Clipboard```
 
-***REMOVED***
-***REMOVED***
-***REMOVED***
-***REMOVED***
-***REMOVED***
+Supported time ranges:
+* Today
+* Yesterday
+* Week 
+* Month
 
-***REMOVED***
-***REMOVED***
-***REMOVED***
-***REMOVED***
+Supported (but extendable) outputs:
+* File
+* Console
+* Clipboard
 
-***REMOVED***
-***REMOVED***
+Supported (but extendable) sources:
+* Jira 
 
-***REMOVED***
+Miss a source or a target? You can write your own. Just inherit Source or Output and implement your own providers as you want.
 
-Possibilities are andless. For example, you can automate your reporting routine:just write a custom output which will fill the data in your reporting system.
+Possibilities are endless. For example, you can automate your reporting routine: just write a custom output which will fill the data in your reporting system.
 
