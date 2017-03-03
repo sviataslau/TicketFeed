@@ -20,5 +20,5 @@ Supported (but extendable) sources:
 
 Miss a source or a target? You can write your own. Just inherit Source or Output and implement your own providers as you want.
 
-Possibilities are andless. For example, you can automate your reporting routine:just write a custom output which will fill the data in your reporting system.
+Possibilities are endless. For example, you can automate your reporting routine: just write a custom output which will fill the data in your reporting system.
 
