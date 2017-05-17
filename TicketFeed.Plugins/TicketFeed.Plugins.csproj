@@ -33,6 +33,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="jint, Version=2.10.3.0, Culture=neutral, PublicKeyToken=2e92ba9c8d81157f">
+      <HintPath>..\packages\jint.2.10.3\lib\net45\jint.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Data" />
@@ -51,6 +54,9 @@
       <Project>{F52EBD89-FF89-49AF-96A9-BE9A2B5016FF}</Project>
       <Name>TicketFeed.SDK</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
