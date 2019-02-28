@@ -12,7 +12,7 @@ namespace TicketFeed
             this.stopwatch = Stopwatch.StartNew();
         }
 
-        public long Milliseconds => this.stopwatch.ElapsedMilliseconds;
+        private long Milliseconds => this.stopwatch.ElapsedMilliseconds;
 
         public void Dispose()
         {

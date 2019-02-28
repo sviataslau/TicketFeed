@@ -3,6 +3,7 @@ using TicketFeed.SDK;
 
 namespace TicketFeed
 {
+    // ReSharper disable once ClassNeverInstantiated.Global : instantiated by console host
     internal class Program
     {
         [STAThread]
@@ -43,9 +44,10 @@ namespace TicketFeed
                         System.Console.WriteLine(ex.Message);
                         System.Console.WriteLine(ex.StackTrace);
                     }
-                    System.Console.ReadLine();
                 }
             }
+
+            System.Console.ReadLine();
         }
     }
 }

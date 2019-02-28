@@ -4,6 +4,7 @@ using TicketFeed.SDK;
 
 namespace TicketFeed
 {
+    // ReSharper disable UnusedAutoPropertyAccessor.Global : properties are set by CommandLineParser lib
     internal class Options
     {
         [Option("src", Required = true, HelpText = "Source Type")]
@@ -26,6 +27,7 @@ namespace TicketFeed
         public string Output { get; set; }
 
         [HelpOption]
+        // ReSharper disable once UnusedMember.Global : used by CommandLineParser lib
         public string Help()
         {
             var usage = new StringBuilder();

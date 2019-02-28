@@ -3,6 +3,7 @@ using TicketFeed.SDK;
 
 namespace TicketFeed.Plugins
 {
+    // ReSharper disable once UnusedMember.Global : instantiated dynamically by host
     internal class Clipboard : Output
     {
         public override string Name => "Clipboard";
@@ -22,6 +23,7 @@ namespace TicketFeed.Plugins
                 Console.ForegroundColor = ConsoleColor.DarkYellow;
                 Console.WriteLine("The result was empty");
             }
+
             Console.ResetColor();
         }
     }

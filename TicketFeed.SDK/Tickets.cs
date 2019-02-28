@@ -9,7 +9,7 @@ namespace TicketFeed.SDK
         public override string ToString()
         {
             var builder = new StringBuilder();
-            foreach (var record in this)
+            foreach (KeyValuePair<DateTime, string> record in this)
             {
                 builder.AppendLine(record.Key.ToShortDateString());
                 builder.Append(record.Value);

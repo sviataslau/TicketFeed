@@ -1,12 +1,10 @@
 ﻿namespace TicketFeed.SDK
 {
+    // ReSharper disable NotAccessedField.Local
     public abstract class Source : ILoadableItem
     {
-        // ReSharper disable once NotAccessedField.Local
         private readonly string url;
-        // ReSharper disable once NotAccessedField.Local
         private readonly string username;
-        // ReSharper disable once NotAccessedField.Local
         private readonly string password;
 
         protected Source(string url, string username, string password)

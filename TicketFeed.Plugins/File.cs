@@ -4,6 +4,7 @@ using TicketFeed.SDK;
 
 namespace TicketFeed.Plugins
 {
+    // ReSharper disable once UnusedMember.Global : instantiated dynamically by host
     internal class File : Output
     {
         private const string Path = "Feed.txt";

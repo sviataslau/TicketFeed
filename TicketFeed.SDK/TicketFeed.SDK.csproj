@@ -42,6 +42,7 @@
     <Compile Include="DateRange.cs" />
     <Compile Include="DateUtils.cs" />
     <Compile Include="ILoadableItem.cs" />
+    <Compile Include="InvalidConfigurationException.cs" />
     <Compile Include="Tickets.cs" />
     <Compile Include="Output.cs" />
     <Compile Include="Source.cs" />

@@ -1,0 +1,7 @@
+{
+  "EmployeeId": "your_employee_id",
+  "ContractId": "your_contract_id",
+  "WorkingTime": 8,
+  "Cookie": "auth cookies",
+  "Url": "https://tacc.tula.co/timesheet/working/269"
+}

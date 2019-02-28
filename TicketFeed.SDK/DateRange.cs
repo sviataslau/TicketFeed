@@ -44,11 +44,6 @@ namespace TicketFeed.SDK
             return dateTime >= this.Start && dateTime < this.End;
         }
 
-        public TimeSpan Time()
-        {
-            return this.End.Subtract(this.Start);
-        }
-
         public override string ToString()
         {
             return $"{this.Start.ToString(CultureInfo.InvariantCulture)} ({this.Start.UnixTime()})" +

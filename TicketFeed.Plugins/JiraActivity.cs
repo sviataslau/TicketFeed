@@ -8,6 +8,7 @@ using TicketFeed.SDK;
 
 namespace TicketFeed.Plugins
 {
+	// ReSharper disable once UnusedMember.Global : instantiated dynamically by host
 	internal sealed class JiraActivity : Source
 	{
 		private const int MaxRecordsToPull = 300;
@@ -45,7 +46,7 @@ namespace TicketFeed.Plugins
 				string response = client.DownloadString(feedUrl);
 				Console.WriteLine($"r: {response}");
 
-				var xDocument = XDocument.Parse(response);
+				XDocument xDocument = XDocument.Parse(response);
 				XElement feed = ClearNamespaces(xDocument.Root);
 				XElement[] entries = feed.Descendants("entry").ToArray();
 				IEnumerable<Tuple<DateTime, string>> tickets = from entry in entries
@@ -61,7 +62,7 @@ namespace TicketFeed.Plugins
 					.Where(t => dateRange.Contains(t.Key))
 					.ToDictionary(g => g.Key, g => string.Join(Environment.NewLine, g.Distinct().ToArray()));
 				var fr = new Tickets();
-				foreach (var record in result)
+				foreach (KeyValuePair<DateTime, string> record in result)
 					fr.Add(record.Key, record.Value);
 				return fr;
 			}
