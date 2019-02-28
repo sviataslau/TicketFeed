@@ -10,7 +10,7 @@ namespace TicketFeed.Plugins
 {
 	internal sealed class JiraActivity : Source
 	{
-		private const int MaxRecordsToPull = 100;
+		private const int MaxRecordsToPull = 300;
 
 		private readonly string url;
 		private readonly string username;
@@ -58,6 +58,7 @@ namespace TicketFeed.Plugins
 					select new Tuple<DateTime, string>(updated, title?.Value + " " + summary?.Value);
 				IDictionary<DateTime, string> result = tickets.GroupBy(t => t.Item1.Date, t => t.Item2)
 					.OrderByDescending(t => t.Key)
+					.Where(t => dateRange.Contains(t.Key))
 					.ToDictionary(g => g.Key, g => string.Join(Environment.NewLine, g.Distinct().ToArray()));
 				var fr = new Tickets();
 				foreach (var record in result)
