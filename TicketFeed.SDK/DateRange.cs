@@ -3,7 +3,7 @@ using System.Globalization;
 
 namespace TicketFeed.SDK
 {
-    public class DateRange
+    public sealed class DateRange
     {
         public enum Type
         {

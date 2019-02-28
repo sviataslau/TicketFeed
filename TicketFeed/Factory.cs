@@ -19,34 +19,34 @@ namespace TicketFeed
 
         private static void LoadPlugins()
         {
-#if DEBUG
-            System.Console.ForegroundColor = ConsoleColor.Yellow;
-            System.Console.WriteLine("Loading plugins from {0}", PluginsDirectory);
-#endif
-            if (Directory.Exists(PluginsDirectory))
+            using (new WithConsoleColor(ConsoleColor.Yellow))
             {
-                IEnumerable<string> plugins =
-                    Directory.GetFiles(PluginsDirectory).Where(f => f.Contains(".TicketFeed.dll"));
-                foreach (string file in plugins)
-                {
-                    AppDomain.CurrentDomain.Load(File.ReadAllBytes(file));
 #if DEBUG
-                    System.Console.WriteLine("{0} loaded.", Path.GetFileName(file));
+                System.Console.WriteLine("Loading plugins from {0}", PluginsDirectory);
 #endif
+                if (Directory.Exists(PluginsDirectory))
+                {
+                    IEnumerable<string> plugins =
+                        Directory.GetFiles(PluginsDirectory).Where(f => f.Contains(".TicketFeed.dll"));
+                    foreach (string file in plugins)
+                    {
+                        AppDomain.CurrentDomain.Load(File.ReadAllBytes(file));
+#if DEBUG
+                        System.Console.WriteLine("{0} loaded.", Path.GetFileName(file));
+#endif
+                    }
                 }
             }
-
-            System.Console.ResetColor();
         }
 
         public static Output Output(string type)
         {
-            return CreatePluginItem<Output>(type);
+            return CreatePluginItem<Output>(type) ?? new NoOutput();
         }
 
-        public static Source Source(string type, string url, string username, string password)
+        public static Source Source(string type)
         {
-            return CreatePluginItem<Source>(type, url, username, password);
+            return CreatePluginItem<Source>(type) ?? new NoSource();
         }
 
         private static T CreatePluginItem<T>(string type, params object[] parameters)

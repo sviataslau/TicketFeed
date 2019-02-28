@@ -4,7 +4,7 @@ using TicketFeed.SDK;
 namespace TicketFeed.Plugins
 {
     // ReSharper disable once UnusedMember.Global : instantiated dynamically by host
-    internal class Clipboard : Output
+    internal sealed class Clipboard : Output
     {
         public override string Name => "Clipboard";
 
@@ -15,13 +15,17 @@ namespace TicketFeed.Plugins
             if (!string.IsNullOrEmpty(output))
             {
                 System.Windows.Forms.Clipboard.SetText(output);
-                Console.ForegroundColor = ConsoleColor.Green;
-                Console.WriteLine("The result has been copied to clipboard");
+                using (new WithConsoleColor(ConsoleColor.Green))
+                {
+                    Console.WriteLine("The result has been copied to clipboard");
+                }
             }
             else
             {
-                Console.ForegroundColor = ConsoleColor.DarkYellow;
-                Console.WriteLine("The result was empty");
+                using (new WithConsoleColor(ConsoleColor.DarkYellow))
+                {
+                    Console.WriteLine("The result was empty");
+                }
             }
 
             Console.ResetColor();

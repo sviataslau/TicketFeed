@@ -48,6 +48,8 @@
     <Compile Include="Console.cs" />
     <Compile Include="MeasuredPerformance.cs" />
     <Compile Include="Factory.cs" />
+    <Compile Include="NoOutput.cs" />
+    <Compile Include="NoSource.cs" />
     <Compile Include="Options.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

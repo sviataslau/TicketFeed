@@ -3,7 +3,7 @@ using System.Diagnostics;
 
 namespace TicketFeed
 {
-    public class MeasuredPerformance : IDisposable
+    public sealed class MeasuredPerformance : IDisposable
     {
         private readonly Stopwatch stopwatch;
 

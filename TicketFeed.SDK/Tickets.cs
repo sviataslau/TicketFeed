@@ -4,7 +4,7 @@ using System.Text;
 
 namespace TicketFeed.SDK
 {
-    public class Tickets : Dictionary<DateTime, string>
+    public sealed class Tickets : Dictionary<DateTime, string>
     {
         public override string ToString()
         {

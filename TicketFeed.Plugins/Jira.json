@@ -1,0 +1,6 @@
+{
+  "Username": "you",
+  "Password": "password",
+  "MaxRecordsToPull": 300,
+  "Url": "jira_url"
+}

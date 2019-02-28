@@ -13,37 +13,29 @@ namespace TicketFeed
             if (!CommandLine.Parser.Default.ParseArguments(args, options))
                 return;
             Output output = Factory.Output(options.Output);
-            if (output == null)
+            Source source = Factory.Source(options.Source);
+
+            using (new WithConsoleColor(ConsoleColor.Yellow))
             {
-                System.Console.ForegroundColor = ConsoleColor.DarkRed;
-                System.Console.WriteLine("Invalid Output");
-                System.Console.ResetColor();
+                System.Console.WriteLine($"Working on pulling data from {source.Name}. Please, be patient.");
             }
-            else
+
+            try
             {
-                Source source = Factory.Source(options.Source, options.Url, options.User, options.Password);
-                if (source == null)
+                Tickets records = source.Tickets(new DateRange(options.Range));
+                using (new WithConsoleColor(ConsoleColor.Yellow))
                 {
-                    System.Console.ForegroundColor = ConsoleColor.DarkRed;
-                    System.Console.WriteLine("Invalid Source");
-                    System.Console.ResetColor();
+                    System.Console.WriteLine($"Sending data to {output.Name}. Please, be patient.");
                 }
-                else
+
+                output.Print(records);
+            }
+            catch (Exception ex)
+            {
+                using (new WithConsoleColor(ConsoleColor.DarkRed))
                 {
-                    System.Console.ForegroundColor = ConsoleColor.Yellow;
-                    System.Console.WriteLine($"Working on pulling data from {source.Name}. Please, be patient.");
-                    System.Console.ResetColor();
-                    try
-                    {
-                        Tickets records = source.Tickets(new DateRange(options.Range));
-                        output.Print(records);
-                    }
-                    catch (Exception ex)
-                    {
-                        System.Console.ForegroundColor = ConsoleColor.DarkRed;
-                        System.Console.WriteLine(ex.Message);
-                        System.Console.WriteLine(ex.StackTrace);
-                    }
+                    System.Console.WriteLine(ex.Message);
+                    System.Console.WriteLine(ex.StackTrace);
                 }
             }
 

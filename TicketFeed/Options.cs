@@ -5,19 +5,10 @@ using TicketFeed.SDK;
 namespace TicketFeed
 {
     // ReSharper disable UnusedAutoPropertyAccessor.Global : properties are set by CommandLineParser lib
-    internal class Options
+    internal sealed class Options
     {
         [Option("src", Required = true, HelpText = "Source Type")]
         public string Source { get; set; }
-
-        [Option("url", Required = true, HelpText = "An URL for your bug tracking system")]
-        public string Url { get; set; }
-
-        [Option('u', "user", Required = true, HelpText = "Username")]
-        public string User { get; set; }
-
-        [Option('p', "password", Required = true, HelpText = "Password")]
-        public string Password { get; set; }
 
         [Option("range", Required = true, DefaultValue = DateRange.Type.Today,
             HelpText = "Date range which you want to pull")]
@@ -35,7 +26,7 @@ namespace TicketFeed
             usage.AppendLine(
                 "A simple console application to pull a list of tickets you've been working on from your bug tracking system and print the list to provided output.");
             usage.AppendLine(
-                "TicketFeed.exe --src jira --url https://comrex.atlassian.net --user you --password password --range Today[Yesterday|Week|Month] --out File[Console|Clipboard]");
+                "TicketFeed.exe --src jira --range Today[Yesterday|Week|Month] --out file[console|clipboard|whatever]");
             return usage.ToString();
         }
     }

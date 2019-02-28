@@ -8,7 +8,7 @@ using Newtonsoft.Json;
 namespace TicketFeed.Plugins
 {
     // ReSharper disable once UnusedMember.Global : instantiated dynamically by host
-    internal class Tacc : Output
+    internal sealed class Tacc : Output
     {
         // ReSharper disable once ClassNeverInstantiated.Local : instantiated with JSON deserialization
         private class Config
@@ -78,17 +78,19 @@ namespace TicketFeed.Plugins
                     HttpResponseMessage result = task.Result;
                     if (result.IsSuccessStatusCode)
                     {
-                        Console.ForegroundColor = ConsoleColor.Green;
-                        Console.WriteLine($"The result for {date} has been sent to TACC");
+                        using (new WithConsoleColor(ConsoleColor.Green))
+                        {
+                            Console.WriteLine($"The result for {date} has been sent to TACC");
+                        }
                     }
                     else
                     {
-                        Console.ForegroundColor = ConsoleColor.DarkRed;
-                        Console.WriteLine($"The result for {date} has NOT been sent to TACC");
-                        Console.WriteLine(result.ReasonPhrase);
+                        using (new WithConsoleColor(ConsoleColor.DarkRed))
+                        {
+                            Console.WriteLine($"The result for {date} has NOT been sent to TACC");
+                            Console.WriteLine(result.ReasonPhrase);
+                        }
                     }
-
-                    Console.ResetColor();
                 }
             }
         }

@@ -2,7 +2,8 @@ using TicketFeed.SDK;
 
 namespace TicketFeed
 {
-    internal class Console : Output
+    // ReSharper disable once UnusedMember.Global : instantiated dynamically by host
+    internal sealed class Console : Output
     {
         public override string Name => "Console";
 
