@@ -1,14 +1,14 @@
-using TicketFeed.SDK;
 using System;
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
+using TicketFeed.SDK;
 
-namespace TicketFeed.Plugins
+namespace TicketFeed.Plugins.Output
 {
     // ReSharper disable once UnusedMember.Global : instantiated dynamically by host
-    internal sealed class Tacc : Output
+    internal sealed class Tacc : SDK.Output
     {
         // ReSharper disable once ClassNeverInstantiated.Local : instantiated with JSON deserialization
         private class Config

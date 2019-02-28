@@ -2,10 +2,10 @@ using System;
 using System.Text;
 using TicketFeed.SDK;
 
-namespace TicketFeed.Plugins
+namespace TicketFeed.Plugins.Output
 {
     // ReSharper disable once UnusedMember.Global : instantiated dynamically by host
-    internal sealed class File : Output
+    internal sealed class File : SDK.Output
     {
         private const string Path = "Feed.txt";
 

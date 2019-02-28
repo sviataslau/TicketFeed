@@ -1,10 +1,10 @@
 using System;
 using TicketFeed.SDK;
 
-namespace TicketFeed.Plugins
+namespace TicketFeed.Plugins.Output
 {
     // ReSharper disable once UnusedMember.Global : instantiated dynamically by host
-    internal sealed class Clipboard : Output
+    internal sealed class Clipboard : SDK.Output
     {
         public override string Name => "Clipboard";
 

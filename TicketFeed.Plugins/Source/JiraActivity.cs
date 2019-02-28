@@ -7,10 +7,10 @@ using System.Xml.Linq;
 using Newtonsoft.Json;
 using TicketFeed.SDK;
 
-namespace TicketFeed.Plugins
+namespace TicketFeed.Plugins.Source
 {
     // ReSharper disable once UnusedMember.Global : instantiated dynamically by host
-    internal sealed class JiraActivity : Source
+    internal sealed class JiraActivity : SDK.Source
     {
         // ReSharper disable once ClassNeverInstantiated.Local : instantiated with JSON deserialization
         private class Config

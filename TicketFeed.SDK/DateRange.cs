@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Globalization;
 
 namespace TicketFeed.SDK
@@ -42,6 +43,16 @@ namespace TicketFeed.SDK
         public bool Contains(DateTime dateTime)
         {
             return dateTime >= this.Start && dateTime < this.End;
+        }
+
+        public IEnumerable<DateTime> Days()
+        {
+            DateTime current = this.Start;
+            while (current <= this.End)
+            {
+                yield return current;
+                current = current.AddDays(1);
+            }
         }
 
         public override string ToString()
