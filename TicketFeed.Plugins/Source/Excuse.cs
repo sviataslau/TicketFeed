@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using TicketFeed.SDK;
@@ -8,49 +9,43 @@ namespace TicketFeed.Plugins.Source
     // ReSharper disable once UnusedMember.Global : instantiated dynamically by host
     internal sealed class Excuse : SDK.Source
     {
-        private class Config
+        private class Excuses : IEnumerable<string>
         {
-            private const string ConfigFilePath = "Excuse.txt";
-
             private readonly Random seed = new Random();
             private readonly IReadOnlyCollection<string> phrases;
 
-            private Config(IReadOnlyCollection<string> phrases)
+            private Excuses(IReadOnlyCollection<string> phrases)
             {
                 this.phrases = phrases;
             }
 
-            public static Config Read()
+            public static Excuses FromFile(string path)
             {
-                if (!System.IO.File.Exists(ConfigFilePath))
-                    throw new InvalidConfigurationException($"No settings file found at {ConfigFilePath}");
-                string[] phrases = System.IO.File.ReadLines(ConfigFilePath).ToArray();
+                if (!System.IO.File.Exists(path))
+                    throw new InvalidConfigurationException($"No settings file found at {path}");
+                string[] phrases = System.IO.File.ReadLines(path).ToArray();
                 if (!phrases.Any())
-                    throw new InvalidConfigurationException($"No phrases found in {ConfigFilePath}");
-                return new Config(phrases);
+                    throw new InvalidConfigurationException($"No phrases found in {path}");
+                return new Excuses(phrases);
             }
 
-            public string RandomExcuse()
-            {
-                return this.phrases.ElementAt(this.seed.Next(this.phrases.Count));
-            }
-        }
+            public string RandomExcuse() => this.phrases.ElementAt(this.seed.Next(this.phrases.Count));
 
-        private readonly Config config;
+            public IEnumerator<string> GetEnumerator() => this.phrases.GetEnumerator();
 
-        public Excuse()
-        {
-            this.config = Config.Read();
+            IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
         }
 
         public override string Name => "Excuse";
 
         public override Tickets Tickets(DateRange dateRange)
         {
+            Excuses excuses = Excuses.FromFile("Excuse.txt");
             var tickets = new Tickets();
-            foreach (DateTime day in dateRange.Days())
+            IEnumerable<DateTime> weekDays = dateRange.Days().Where(d => !d.IsWeekend());
+            foreach (DateTime day in weekDays)
             {
-                tickets.Add(day, this.config.RandomExcuse());
+                tickets.Add(day, excuses.RandomExcuse());
             }
 
             return tickets;

@@ -39,15 +39,9 @@ namespace TicketFeed
             }
         }
 
-        public static Output Output(string type)
-        {
-            return CreatePluginItem<Output>(type) ?? new NoOutput();
-        }
+        public static Output Output(string type) => CreatePluginItem<Output>(type) ?? new NoOutput();
 
-        public static Source Source(string type)
-        {
-            return CreatePluginItem<Source>(type) ?? new NoSource();
-        }
+        public static Source Source(string type) => CreatePluginItem<Source>(type) ?? new NoSource();
 
         private static T CreatePluginItem<T>(string type, params object[] parameters)
             where T : ILoadableItem

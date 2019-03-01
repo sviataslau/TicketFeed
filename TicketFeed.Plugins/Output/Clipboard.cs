@@ -27,8 +27,6 @@ namespace TicketFeed.Plugins.Output
                     Console.WriteLine("The result was empty");
                 }
             }
-
-            Console.ResetColor();
         }
     }
 }

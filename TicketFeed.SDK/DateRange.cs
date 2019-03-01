@@ -37,13 +37,12 @@ namespace TicketFeed.SDK
                     this.Start = new DateTime(DateTime.UtcNow.Year, DateTime.UtcNow.Month, 1);
                     this.End = this.Start.AddMonths(1).AddDays(-1);
                     break;
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(type), type, "Type is not supported");
             }
         }
 
-        public bool Contains(DateTime dateTime)
-        {
-            return dateTime >= this.Start && dateTime < this.End;
-        }
+        public bool Contains(DateTime dateTime) => dateTime >= this.Start && dateTime < this.End;
 
         public IEnumerable<DateTime> Days()
         {
@@ -55,10 +54,8 @@ namespace TicketFeed.SDK
             }
         }
 
-        public override string ToString()
-        {
-            return $"{this.Start.ToString(CultureInfo.InvariantCulture)} ({this.Start.UnixTime()})" +
-                   $" {this.End.ToString(CultureInfo.InvariantCulture)} ({this.End.UnixTime()})";
-        }
+        public override string ToString() =>
+            $"{this.Start.ToString(CultureInfo.InvariantCulture)} ({this.Start.UnixTime()})" +
+            $" {this.End.ToString(CultureInfo.InvariantCulture)} ({this.End.UnixTime()})";
     }
 }

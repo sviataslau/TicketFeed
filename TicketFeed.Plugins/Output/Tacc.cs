@@ -13,8 +13,6 @@ namespace TicketFeed.Plugins.Output
         // ReSharper disable once ClassNeverInstantiated.Local : instantiated with JSON deserialization
         private class Config
         {
-            private const string ConfigFilePath = "Tacc.json";
-
             // ReSharper disable UnusedAutoPropertyAccessor.Local : properties are set upon deserialization from JSON
             public int EmployeeId { get; set; }
             public int ContractId { get; set; }
@@ -24,33 +22,27 @@ namespace TicketFeed.Plugins.Output
 
             private Config() { }
 
-            public static Config Read()
+            public static Config FromFile(string path)
             {
-                if (!System.IO.File.Exists(ConfigFilePath))
-                    throw new InvalidConfigurationException($"No settings file found at {ConfigFilePath}");
-                string settings = System.IO.File.ReadAllText(ConfigFilePath);
+                if (!System.IO.File.Exists(path))
+                    throw new InvalidConfigurationException($"No settings file found at {path}");
+                string settings = System.IO.File.ReadAllText(path);
                 try
                 {
                     return JsonConvert.DeserializeObject<Config>(settings);
                 }
                 catch
                 {
-                    throw new InvalidConfigurationException($"Improperly formatted settings file {ConfigFilePath}");
+                    throw new InvalidConfigurationException($"Improperly formatted settings file {path}");
                 }
             }
-        }
-
-        private readonly Config config;
-
-        public Tacc()
-        {
-            this.config = Config.Read();
         }
 
         public override string Name => "TACC";
 
         public override void Print(Tickets records)
         {
+            Config config = Config.FromFile("Tacc.json");
             string output = records.ToString();
             Console.Write(output);
             using (var handler = new HttpClientHandler
@@ -65,14 +57,14 @@ namespace TicketFeed.Plugins.Output
                     string description = day.Value;
                     var formContent = new FormUrlEncodedContent(new[]
                     {
-                        new KeyValuePair<string, string>("ContractId", this.config.ContractId.ToString()),
-                        new KeyValuePair<string, string>("EmployeeId", this.config.EmployeeId.ToString()),
+                        new KeyValuePair<string, string>("ContractId", config.ContractId.ToString()),
+                        new KeyValuePair<string, string>("EmployeeId", config.EmployeeId.ToString()),
                         new KeyValuePair<string, string>("Date", date),
                         new KeyValuePair<string, string>("Description", description),
-                        new KeyValuePair<string, string>("TotalHourId", this.config.WorkingTime.ToString())
+                        new KeyValuePair<string, string>("TotalHourId", config.WorkingTime.ToString())
                     });
-                    var request = new HttpRequestMessage(HttpMethod.Post, this.config.Url);
-                    request.Headers.Add("Cookie", this.config.Cookie);
+                    var request = new HttpRequestMessage(HttpMethod.Post, config.Url);
+                    request.Headers.Add("Cookie", config.Cookie);
                     request.Content = formContent;
                     Task<HttpResponseMessage> task = client.SendAsync(request);
                     HttpResponseMessage result = task.Result;

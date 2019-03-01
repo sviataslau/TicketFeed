@@ -10,10 +10,7 @@ namespace TicketFeed.SDK
             return Convert.ToInt64((date - epoch).TotalMilliseconds);
         }
 
-        public static DateTime EndOfDay(this DateTime date)
-        {
-            return date.Date.AddDays(1).AddSeconds(-1);
-        }
+        public static DateTime EndOfDay(this DateTime date) => date.Date.AddDays(1).AddSeconds(-1);
 
         public static DateTime StartOfWeek(this DateTime date, DayOfWeek startOfWeek)
         {
@@ -22,5 +19,8 @@ namespace TicketFeed.SDK
                 diff += 7;
             return date.AddDays(-1 * diff).Date;
         }
+
+        public static bool IsWeekend(this DateTime date) =>
+            date.DayOfWeek == DayOfWeek.Saturday || date.DayOfWeek == DayOfWeek.Sunday;
     }
 }
