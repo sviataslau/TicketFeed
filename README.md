@@ -2,7 +2,7 @@ A simple console application to pull a list of tickets you've been working on fr
 
 Usage:
 
-```TicketFeed.exe --src jira --url https://comrex.atlassian.net --user you --password password --range Today --out Clipboard```
+```TicketFeed.exe --src jir --range Today --out Clipboard```
 
 Supported time ranges:
 * Today
@@ -16,9 +16,8 @@ Supported (but extendable) outputs:
 * Clipboard
 
 Supported (but extendable) sources:
-* Jira 
+* Jira (configurable in Jira.json) - your Jira activity feed
+* Excuse (configurable in Excuse.txt) - your daily lame excuses
 
 Miss a source or a target? You can write your own. Just inherit Source or Output and implement your own providers as you want.
-
-Possibilities are endless. For example, you can automate your reporting routine: just write a custom output which will fill the data in your reporting system.
 
