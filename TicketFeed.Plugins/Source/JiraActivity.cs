@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
+using System.Text;
 using System.Xml.Linq;
 using Newtonsoft.Json;
 using TicketFeed.SDK;
@@ -42,6 +43,9 @@ namespace TicketFeed.Plugins.Source
 
             public NetworkCredential Credential() => new NetworkCredential(Email, Token);
 
+            public string CredentialBase64() =>
+                Convert.ToBase64String(Encoding.Default.GetBytes(Email + ":" + Token));
+            
             public string FeedUrl(DateRange range) =>
                 $"{Url}/activity?streams=user+IS+{Username}&" +
                 $"streams=update-date+BETWEEN+{range.Start.UnixTime()}+{range.End.UnixTime()}&" +
@@ -50,7 +54,7 @@ namespace TicketFeed.Plugins.Source
 
 
             public override string ToString() =>
-                $"{nameof(MaxRecordsToPull)}: {MaxRecordsToPull}, {nameof(Url)}: {Url}, {nameof(Username)}: {Username}, {nameof(Token)}: {Token}";
+                $"{nameof(MaxRecordsToPull)}: {MaxRecordsToPull}, {nameof(Url)}: {Url}, {nameof(Username)}: {Username}, {nameof(Email)}: {Email}, {nameof(Token)}: {Token}";
         }
 
         public override string Name => "Jira";
@@ -60,6 +64,8 @@ namespace TicketFeed.Plugins.Source
             Config config = Config.FromFile("Jira.json");
             using (var client = new WebClient { Credentials = config.Credential() })
             {
+                string credentials = config.CredentialBase64();
+                client.Headers[HttpRequestHeader.Authorization] = $"Basic {credentials}";
                 string feedUrl = config.FeedUrl(dateRange);
 #if DEBUG
                 Console.WriteLine(dateRange.ToString());
@@ -67,7 +73,9 @@ namespace TicketFeed.Plugins.Source
                 Console.WriteLine(config.ToString());
 #endif
                 string response = client.DownloadString(feedUrl);
+#if DEBUG
                 Console.WriteLine(response);
+#endif
                 XDocument xDocument = XDocument.Parse(response);
                 XElement feed = ClearNamespaces(xDocument.Root);
                 XElement[] entries = feed.Descendants("entry").ToArray();
