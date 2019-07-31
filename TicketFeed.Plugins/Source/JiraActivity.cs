@@ -64,6 +64,7 @@ namespace TicketFeed.Plugins.Source
             Config config = Config.FromFile("Jira.json");
             using (var client = new WebClient { Credentials = config.Credential() })
             {
+                ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
                 string credentials = config.CredentialBase64();
                 client.Headers[HttpRequestHeader.Authorization] = $"Basic {credentials}";
                 string feedUrl = config.FeedUrl(dateRange);
